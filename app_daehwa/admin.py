@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones
 
 admin.register(Usuario)
 admin.register(Chat)
