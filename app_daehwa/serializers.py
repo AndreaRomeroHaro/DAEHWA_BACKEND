@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import timezone
 from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -10,11 +11,26 @@ class ChatSerializer(serializers.ModelSerializer):
     class Meta:
         model=Chat
         fields="__all__"
+    
+    def validate(self,data):
+        emisor=data.get('emisor')
+        receptor=data.get('receptor')
+
+        if emisor and receptor:
+            if emisor ==receptor:
+                raise serializers.ValidationError("No puedes enviarte mensajes a ti mismo.")
+        return data
+
 
 class PacienteSerializer(serializers.ModelSerializer):
     class Meta:
         model=Paciente
         fields='__all__'
+    
+    def validate_fecha_nacimiento(self,value):
+        if value>timezone.now().date():
+            raise serializers.ValidationError("La fecha de nacimiento no puede ser posterior a la fecha actual.")
+        return value
     
 class Evaluacion_InicialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,7 +51,21 @@ class CitaSerializer(serializers.ModelSerializer):
     class Meta:
         model=Cita
         fields="__all__"
+    
+    def validate_fecha_inicio(self,value):
+        if value<timezone.now():
+            raise serializers.ValidationError("La fecha de inicio de la cita no puede ser anterior a la fecha actual.")
+        return value
+    
+    def validate(self,data):
+        fecha_inicio=data.get('fecha_inicio')
+        fecha_fin=data.get('fecha_fin')
 
+        if fecha_inicio and fecha_fin:
+            if fecha_fin <=fecha_inicio:
+                raise serializers.ValidationError("La fecha de finalización debe ser posterior a la fecha de inicio")
+        return data
+        
 class Registro_SesionesSerializer(serializers.ModelSerializer):
     class Meta:
         model=Registro_Sesiones
