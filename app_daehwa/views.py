@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones
-from .serializers import UsuarioSerializer,ChatSerializer,Evaluacion_InicialSerializer,Diagnostico_FuncionalSerializer,Plan_IntervencionSerializer,CitaSerializer,Registro_SesionesSerializer,PacienteSerializer
+from .serializers import UsuarioSerializer,ChatSerializer,Evaluacion_InicialSerializer,Diagnostico_FuncionalSerializer,Plan_IntervencionSerializer,CitaSerializer,Registro_SesionesSerializer,PacienteSerializer,TokenPersonalizado
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset=Usuario.objects.all()
@@ -33,3 +34,6 @@ class CitaViewSet(viewsets.ModelViewSet):
 class Registro_SesionesViewSet(viewsets.ModelViewSet):
     queryset=Registro_Sesiones.objects.all()
     serializer_class=Registro_SesionesSerializer
+
+class LoginPersonalizadoView(TokenObtainPairView):
+    serializer_class=TokenPersonalizado

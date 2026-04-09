@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,3 +71,12 @@ class Registro_SesionesSerializer(serializers.ModelSerializer):
     class Meta:
         model=Registro_Sesiones
         fields="__all__"
+
+class TokenPersonalizado(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token=super().get_token(user)
+        token['nombre']=user.nombre
+        token['rol']=user.rol
+        token['correo']=user.correo_electronico
+        return token
