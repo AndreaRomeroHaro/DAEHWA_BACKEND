@@ -4,6 +4,8 @@ from django.core.validators import FileExtensionValidator
 from django.conf import settings
 
 class Usuario(AbstractUser):
+    
+    USERNAME_FIELD = 'correo_electronico'
 
     class Roles(models.TextChoices):
         LOGOPEDA="L","Logopeda"
@@ -15,6 +17,11 @@ class Usuario(AbstractUser):
     foto_usuario=models.ImageField(upload_to='imagenes/foto_usuario/',blank=True,null=True,validators=[FileExtensionValidator(allowed_extensions=['jpg','png','jpeg'])])
     groups=models.ManyToManyField('auth.Group',related_name='usuario_groups',blank=True)
     user_permissions=models.ManyToManyField('auth.Permission',related_name='usuario_permissions',blank=True)
+
+    def save(self,*args,**kwargs):
+        if not self.username:
+            self.username=self.correo_electronico
+        super().save(*args,**kwargs)
 
     def __str__(self):
         return f"{self.nombre} ({self.get_rol_display()})"
