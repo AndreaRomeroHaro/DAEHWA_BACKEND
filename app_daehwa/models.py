@@ -5,7 +5,9 @@ from django.conf import settings
 
 class Usuario(AbstractUser):
     
-    USERNAME_FIELD = 'correo_electronico'
+    username=None
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS=[]
 
     class Roles(models.TextChoices):
         LOGOPEDA="L","Logopeda"
@@ -16,11 +18,9 @@ class Usuario(AbstractUser):
         verbose_name_plural = "Usuarios"
 
     nombre=models.CharField(max_length=150)
-    correo_electronico=models.EmailField(unique=True)
+    email=models.EmailField(unique=True)
     rol=models.CharField(max_length=1,choices=Roles.choices,default=Roles.FAMILIA)
     foto_usuario=models.ImageField(upload_to='imagenes/foto_usuario/',blank=True,null=True,validators=[FileExtensionValidator(allowed_extensions=['jpg','png','jpeg'])])
-    groups=models.ManyToManyField('auth.Group',related_name='usuario_groups',blank=True)
-    user_permissions=models.ManyToManyField('auth.Permission',related_name='usuario_permissions',blank=True)
 
     def save(self,*args,**kwargs):
         if not self.username:
