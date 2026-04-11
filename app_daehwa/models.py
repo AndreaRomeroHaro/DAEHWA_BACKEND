@@ -11,6 +11,10 @@ class Usuario(AbstractUser):
         LOGOPEDA="L","Logopeda"
         FAMILIA="F","Familiar"
     
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
+
     nombre=models.CharField(max_length=150)
     correo_electronico=models.EmailField(unique=True)
     rol=models.CharField(max_length=1,choices=Roles.choices,default=Roles.FAMILIA)
@@ -27,6 +31,11 @@ class Usuario(AbstractUser):
         return f"{self.nombre} ({self.get_rol_display()})"
 
 class Chat(models.Model):
+    
+    class Meta:
+        verbose_name = "Chat"
+        verbose_name_plural = "Chats"
+
     emisor=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='mensajes_enviados')
     receptor=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="mensajes_recibidos")
     texto=models.TextField()
@@ -36,6 +45,11 @@ class Chat(models.Model):
         return f"Mensaje de {self.emisor.nombre} a {self.receptor.nombre} - ({self.fecha})"
     
 class Paciente(models.Model):
+
+    class Meta:
+        verbose_name = "Paciente"
+        verbose_name_plural = "Pacientes"
+
     nombre=models.CharField(max_length=200)
     apellidos=models.CharField(max_length=200)
     fecha_nacimiento=models.DateField()
@@ -47,6 +61,11 @@ class Paciente(models.Model):
         return f"{self.nombre} {self.apellidos}"
     
 class Evaluacion_Inicial(models.Model):
+
+    class Meta:
+        verbose_name = "Evaluacion_Inicial"
+        verbose_name_plural = "Evaluacion_Inicial"
+
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name="evaluacion_inicial")
     antecedentes_clinicos=models.TextField(blank=True,null=True)
     entorno_familiar=models.TextField(blank=True,null=True)
@@ -58,6 +77,11 @@ class Evaluacion_Inicial(models.Model):
         return f"Evaluación Inicial del paciente: {self.paciente.nombre}"
 
 class Diagnostico_Funcional(models.Model):
+
+    class Meta:
+        verbose_name = "Diagnostico_Funcional"
+        verbose_name_plural = "Diagnostico_Funcional"
+
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name="diagnostico_funcional")
     fecha=models.DateField()
     diagnostico_funcional=models.TextField()
@@ -67,6 +91,11 @@ class Diagnostico_Funcional(models.Model):
         return f"Diagnóstico funcional del paciente {self.paciente.nombre}"
 
 class Plan_Intervencion(models.Model):
+
+    class Meta:
+        verbose_name = "Plan_Intervencion"
+        verbose_name_plural = "Plan_Intervencion"
+
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name='plan_intervencion')
     objetivos_especificos=models.TextField()
     contenidos=models.TextField()
@@ -77,6 +106,11 @@ class Plan_Intervencion(models.Model):
         return f"Plan de intervención del paciente {self.paciente.nombre}"
 
 class Cita (models.Model):
+
+    class Meta:
+        verbose_name = "Cita"
+        verbose_name_plural = "Citas"
+
     paciente=models.ForeignKey(Paciente,on_delete=models.CASCADE,related_name='citas')
     id_usuario_logopeda=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,limit_choices_to={'rol':'Logopeda'})
     fecha_inicio=models.DateTimeField()
@@ -86,6 +120,11 @@ class Cita (models.Model):
         return f"Cita de {self.paciente.nombre} el {self.fecha_inicio}"
 
 class Registro_Sesiones(models.Model):
+
+    class Meta:
+        verbose_name = "Registro_Sesion"
+        verbose_name_plural = "Registro_Sesiones"
+
     paciente=models.ForeignKey(Paciente, on_delete=models.CASCADE,related_name='sesiones')
     fecha=models.DateField()
     actividades=models.TextField()
