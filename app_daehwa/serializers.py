@@ -6,7 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model=Usuario
-        fields=['id','nombre','correo_electronico','rol','foto_usuario']
+        fields=['id','nombre','email','rol','foto_usuario']
 
 class ChatSerializer(serializers.ModelSerializer):
     class Meta:

@@ -22,11 +22,6 @@ class Usuario(AbstractUser):
     rol=models.CharField(max_length=1,choices=Roles.choices,default=Roles.FAMILIA)
     foto_usuario=models.ImageField(upload_to='imagenes/foto_usuario/',blank=True,null=True,validators=[FileExtensionValidator(allowed_extensions=['jpg','png','jpeg'])])
 
-    def save(self,*args,**kwargs):
-        if not self.username:
-            self.username=self.correo_electronico
-        super().save(*args,**kwargs)
-
     def __str__(self):
         return f"{self.nombre} ({self.get_rol_display()})"
 
@@ -39,7 +34,7 @@ class Chat(models.Model):
     emisor=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='mensajes_enviados')
     receptor=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="mensajes_recibidos")
     texto=models.TextField()
-    fecha=models.DateField(auto_now_add=True)
+    fecha=models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"Mensaje de {self.emisor.nombre} a {self.receptor.nombre} - ({self.fecha})"
@@ -112,7 +107,7 @@ class Cita (models.Model):
         verbose_name_plural = "Citas"
 
     paciente=models.ForeignKey(Paciente,on_delete=models.CASCADE,related_name='citas')
-    id_usuario_logopeda=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,limit_choices_to={'rol':'Logopeda'})
+    id_usuario_logopeda=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,limit_choices_to={'rol':'L'},related_name='citas_logopeda')
     fecha_inicio=models.DateTimeField()
     fecha_fin=models.DateTimeField()
 
