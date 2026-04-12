@@ -4,17 +4,30 @@ from .serializers import UsuarioSerializer,ChatSerializer,Evaluacion_InicialSeri
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset=Usuario.objects.all()
     serializer_class=UsuarioSerializer
 
+    def get_queryset(self):
+        user=self.request.user
+        return Usuario.objects.filter(id=user.id)
+
 class ChatViewSet(viewsets.ModelViewSet):
-    queryset=Chat.objects.all()
     serializer_class=ChatSerializer
 
+    def get_queryset(self):
+        user=self.request.user
+        return Chat.objects.filter(emisor=user) | Chat.objects.filter(receptor=user)
+
 class PacienteViewSet(viewsets.ModelViewSet):
-    queryset=Paciente.objects.all()
     serializer_class=PacienteSerializer
 
+    def get_queryset(self):
+        user=self.request.user
+        if user.rol== 'L':
+            return Paciente.objects.filter(logopeda_asignado=user)
+        if user.rol=='F':
+            return Paciente.objects.filter(familiar=user)
+        return Paciente.objects.none()
+    
 class Evaluacion_InicialViewSet(viewsets.ModelViewSet):
     queryset=Evaluacion_Inicial.objects.all()
     serializer_class=Evaluacion_InicialSerializer
@@ -28,12 +41,24 @@ class Plan_IntervencionViewSet(viewsets.ModelViewSet):
     serializer_class=Plan_IntervencionSerializer
 
 class CitaViewSet(viewsets.ModelViewSet):
-    queryset=Cita.objects.all()
     serializer_class=CitaSerializer
 
-class Registro_SesionesViewSet(viewsets.ModelViewSet):
-    queryset=Registro_Sesiones.objects.all()
-    serializer_class=Registro_SesionesSerializer
+    def get_queryset(self):
+        user=self.request.user
+        if user.rol=='L':
+            return Cita.objects.filter(id_usuario_logopeda=user)
+        if user.rol=='F':
+            return Cita.objects.filter(paciente__familiar=user)
+        return Cita.objects.none()
 
+class Registro_SesionesViewSet(viewsets.ModelViewSet):
+    serializer_class=Registro_SesionesSerializer
+    
+    def get_queryset(self):
+        user=self.request.user
+        if user.rol=='L':
+            return Registro_Sesiones.objects.filter(paciente__logopeda_asignado=user)
+        return Registro_Sesiones.objects.filter(paciente__familiar=user) 
+    
 class LoginPersonalizadoView(TokenObtainPairView):
     serializer_class=TokenPersonalizado
