@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     serializer_class=UsuarioSerializer
+    queryset=Usuario.objects.all()
 
     def get_queryset(self):
         user=self.request.user
@@ -12,6 +13,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
 
 class ChatViewSet(viewsets.ModelViewSet):
     serializer_class=ChatSerializer
+    queryset=Chat.objects.all()
 
     def get_queryset(self):
         user=self.request.user
@@ -19,6 +21,7 @@ class ChatViewSet(viewsets.ModelViewSet):
 
 class PacienteViewSet(viewsets.ModelViewSet):
     serializer_class=PacienteSerializer
+    queryset=Paciente.objects.all()
 
     def get_queryset(self):
         user=self.request.user
@@ -42,6 +45,7 @@ class Plan_IntervencionViewSet(viewsets.ModelViewSet):
 
 class CitaViewSet(viewsets.ModelViewSet):
     serializer_class=CitaSerializer
+    queryset=Cita.objects.all()
 
     def get_queryset(self):
         user=self.request.user
@@ -53,6 +57,7 @@ class CitaViewSet(viewsets.ModelViewSet):
 
 class Registro_SesionesViewSet(viewsets.ModelViewSet):
     serializer_class=Registro_SesionesSerializer
+    queryset=Registro_Sesiones.objects.all()
     
     def get_queryset(self):
         user=self.request.user

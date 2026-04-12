@@ -4,10 +4,9 @@ from django.core.validators import FileExtensionValidator
 from django.conf import settings
 
 class Usuario(AbstractUser):
-    
-    username=None
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS=[]
+
+    USERNAME_FIELD='username'
+    REQUIRED_FIELDS=['email']
 
     class Roles(models.TextChoices):
         LOGOPEDA="L","Logopeda"
@@ -18,6 +17,7 @@ class Usuario(AbstractUser):
         verbose_name_plural = "Usuarios"
 
     nombre=models.CharField(max_length=150)
+    username=models.CharField(max_length=150,unique=True)
     email=models.EmailField(unique=True)
     rol=models.CharField(max_length=1,choices=Roles.choices,default=Roles.FAMILIA)
     foto_usuario=models.ImageField(upload_to='imagenes/foto_usuario/',blank=True,null=True,validators=[FileExtensionValidator(allowed_extensions=['jpg','png','jpeg'])])
