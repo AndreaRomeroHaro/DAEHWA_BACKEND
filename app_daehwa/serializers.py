@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.utils import timezone
-from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones
+from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones,Evaluacion_Periodica
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -46,6 +46,11 @@ class Diagnostico_FuncionalSerializer(serializers.ModelSerializer):
 class Plan_IntervencionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Plan_Intervencion
+        fields="__all__"
+
+class Evaluacion_PeriodicaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Evaluacion_Periodica
         fields="__all__"
 
 class CitaSerializer(serializers.ModelSerializer):

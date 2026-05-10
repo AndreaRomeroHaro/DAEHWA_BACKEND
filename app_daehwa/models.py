@@ -94,8 +94,8 @@ class Plan_Intervencion(models.Model):
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name='plan_intervencion')
     objetivos_especificos=models.TextField()
     contenidos=models.TextField()
-    frecuencia=models.CharField(max_length=100)
-    duracion_sesiones=models.CharField(max_length=100)
+    frecuencia=models.IntegerField()
+    duracion_sesiones=models.IntegerField()
 
     def __str__(self):
         return f"Plan de intervención del paciente {self.paciente.nombre}"
@@ -132,3 +132,18 @@ class Registro_Sesiones(models.Model):
     def __str__(self):
         return f"Registro de sesiones de {self.paciente.nombre}"
 
+class Evaluacion_Periodica(models.Model):
+
+    class Meta:
+        verbose_name="Evaluacion_Inicial"
+        verbose_name_plural="Evaluacion_Periodica"
+
+    paciente=models.ForeignKey(Paciente, on_delete=models.CASCADE,related_name='sesiones')
+    fecha=models.DateField()
+    areas=models.TextField(blank=True,null=True)
+    instrumentos=models.CharField(max_length=225)
+    cambios=models.TextField(blank=True,null=True)
+    puntuacion=models.IntegerField()
+
+    def __str__(self):
+         return f"Evaluación Inicial del paciente: {self.paciente.nombre}"

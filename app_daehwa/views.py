@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones
-from .serializers import UsuarioSerializer,ChatSerializer,Evaluacion_InicialSerializer,Diagnostico_FuncionalSerializer,Plan_IntervencionSerializer,CitaSerializer,Registro_SesionesSerializer,PacienteSerializer,TokenPersonalizado
+from .models import Usuario,Chat,Evaluacion_Inicial,Paciente,Diagnostico_Funcional,Plan_Intervencion,Cita,Registro_Sesiones,Evaluacion_Periodica
+from .serializers import UsuarioSerializer,ChatSerializer,Evaluacion_InicialSerializer,Diagnostico_FuncionalSerializer,Plan_IntervencionSerializer,CitaSerializer,Registro_SesionesSerializer,PacienteSerializer,TokenPersonalizado,Evaluacion_PeriodicaSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 class UsuarioViewSet(viewsets.ModelViewSet):
@@ -38,6 +38,10 @@ class Evaluacion_InicialViewSet(viewsets.ModelViewSet):
 class Diagnostico_FuncionalViewSet(viewsets.ModelViewSet):
     queryset=Diagnostico_Funcional.objects.all()
     serializer_class=Diagnostico_FuncionalSerializer
+
+class Evaluacion_PeriodicaViewSet(viewsets.ModelViewSet):
+    queryset=Evaluacion_Periodica.objects.all()
+    serializer_class=Evaluacion_InicialSerializer
 
 class Plan_IntervencionViewSet(viewsets.ModelViewSet):
     queryset=Plan_Intervencion.objects.all()
