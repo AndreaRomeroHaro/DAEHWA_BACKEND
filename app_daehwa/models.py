@@ -138,7 +138,7 @@ class Evaluacion_Periodica(models.Model):
         verbose_name="Evaluacion_Inicial"
         verbose_name_plural="Evaluacion_Periodica"
 
-    paciente=models.ForeignKey(Paciente, on_delete=models.CASCADE,related_name='sesiones')
+    paciente=models.ForeignKey(Paciente, on_delete=models.CASCADE,related_name='evaluaciones')
     fecha=models.DateField()
     areas=models.TextField(blank=True,null=True)
     instrumentos=models.CharField(max_length=225)

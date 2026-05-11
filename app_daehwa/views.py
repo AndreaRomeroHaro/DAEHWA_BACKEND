@@ -41,7 +41,13 @@ class Diagnostico_FuncionalViewSet(viewsets.ModelViewSet):
 
 class Evaluacion_PeriodicaViewSet(viewsets.ModelViewSet):
     queryset=Evaluacion_Periodica.objects.all()
-    serializer_class=Evaluacion_InicialSerializer
+    serializer_class=Evaluacion_PeriodicaSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.rol == 'L':
+            return Evaluacion_Periodica.objects.filter(paciente__logopeda_asignado=user)
+        return Evaluacion_Periodica.objects.filter(paciente__familiar=user)
 
 class Plan_IntervencionViewSet(viewsets.ModelViewSet):
     queryset=Plan_Intervencion.objects.all()
