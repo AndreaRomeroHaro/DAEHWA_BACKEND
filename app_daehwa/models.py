@@ -79,7 +79,7 @@ class Diagnostico_Funcional(models.Model):
 
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name="diagnostico_funcional")
     fecha=models.DateField()
-    diagnostico_funcional=models.TextField()
+    diagnostico_funcional=models.TextField(blank=True)
     recomendaciones=models.TextField(blank=True,null=True)
 
     def __str__(self):

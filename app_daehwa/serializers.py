@@ -43,6 +43,20 @@ class Diagnostico_FuncionalSerializer(serializers.ModelSerializer):
         model=Diagnostico_Funcional
         fields="__all__"
 
+    def validate(self, data):
+        errores = {}
+
+        if not data.get("fecha"):
+            errores["fecha"] = "Debes introducir una fecha."
+
+        if not data.get("diagnostico_funcional"):
+            errores["diagnostico_funcional"] = "Debes introducir un diagnóstico funcional."
+
+        if errores:
+            raise serializers.ValidationError(errores)
+
+        return data
+
 class Plan_IntervencionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Plan_Intervencion
@@ -54,10 +68,18 @@ class Evaluacion_PeriodicaSerializer(serializers.ModelSerializer):
         fields="__all__"
 
 class CitaSerializer(serializers.ModelSerializer):
+
+    paciente = serializers.PrimaryKeyRelatedField(
+        queryset=Paciente.objects.all(),
+        error_messages={
+            "does_not_exist": "El paciente seleccionado no existe."
+        }
+    )
+
     class Meta:
         model=Cita
         fields="__all__"
-    
+
     def validate_fecha_inicio(self,value):
         if value<timezone.now():
             raise serializers.ValidationError("La fecha de inicio de la cita no puede ser anterior a la fecha actual.")
