@@ -4,4 +4,3 @@ __pycache__
 *~
 /static
 .DS_store
-db.sqlite3
