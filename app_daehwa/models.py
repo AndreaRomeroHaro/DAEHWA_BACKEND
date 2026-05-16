@@ -58,8 +58,8 @@ class Paciente(models.Model):
 class Evaluacion_Inicial(models.Model):
 
     class Meta:
-        verbose_name = "Evaluacion_Inicial"
-        verbose_name_plural = "Evaluacion_Inicial"
+        verbose_name = "Evaluacion Inicial"
+        verbose_name_plural = "Evaluacion Inicial"
 
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name="evaluacion_inicial")
     antecedentes_clinicos=models.TextField(blank=True,null=True)
@@ -74,8 +74,8 @@ class Evaluacion_Inicial(models.Model):
 class Diagnostico_Funcional(models.Model):
 
     class Meta:
-        verbose_name = "Diagnostico_Funcional"
-        verbose_name_plural = "Diagnostico_Funcional"
+        verbose_name = "Diagnostico Funcional"
+        verbose_name_plural = "Diagnostico Funcional"
 
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name="diagnostico_funcional")
     fecha=models.DateField()
@@ -88,8 +88,8 @@ class Diagnostico_Funcional(models.Model):
 class Plan_Intervencion(models.Model):
 
     class Meta:
-        verbose_name = "Plan_Intervencion"
-        verbose_name_plural = "Plan_Intervencion"
+        verbose_name = "Plan Intervencion"
+        verbose_name_plural = "Plan Intervencion"
 
     paciente=models.OneToOneField(Paciente,on_delete=models.CASCADE,related_name='plan_intervencion')
     objetivos_especificos=models.TextField()
@@ -117,8 +117,8 @@ class Cita (models.Model):
 class Registro_Sesiones(models.Model):
 
     class Meta:
-        verbose_name = "Registro_Sesion"
-        verbose_name_plural = "Registro_Sesiones"
+        verbose_name = "Registro Sesion"
+        verbose_name_plural = "Registro Sesiones"
 
     paciente=models.ForeignKey(Paciente, on_delete=models.CASCADE,related_name='sesiones')
     fecha=models.DateField()
@@ -135,8 +135,8 @@ class Registro_Sesiones(models.Model):
 class Evaluacion_Periodica(models.Model):
 
     class Meta:
-        verbose_name="Evaluacion_Inicial"
-        verbose_name_plural="Evaluacion_Periodica"
+        verbose_name="Evaluacion Periodica"
+        verbose_name_plural="Evaluacion Periodica"
 
     paciente=models.ForeignKey(Paciente, on_delete=models.CASCADE,related_name='evaluaciones')
     fecha=models.DateField()
@@ -146,4 +146,4 @@ class Evaluacion_Periodica(models.Model):
     puntuacion=models.IntegerField()
 
     def __str__(self):
-         return f"Evaluación Inicial del paciente: {self.paciente.nombre}"
+         return f"Evaluación Periodica del paciente: {self.paciente.nombre}"
