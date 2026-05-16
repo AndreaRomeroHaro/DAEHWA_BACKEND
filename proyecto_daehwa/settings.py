@@ -134,6 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://127.0.0.1:4200",
+    "https://daehwa-frontend.vercel.app"
 ]
 
 MEDIA_URL = '/media/'
@@ -156,3 +157,7 @@ SIMPLE_JWT={
     'ROTATE_REFRESH_TOKENS':True,                  #DAR NUEVO TOKEN CADA VEZ QUE SE INICIA SESION
     'BLACKLIST_AFTER_ROTATION':True,               #ANULAR TOKENS VIEJOS 
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://daehwa-frontend.vercel.app",
+]
